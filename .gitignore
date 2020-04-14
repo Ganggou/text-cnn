@@ -1,0 +1,11 @@
+spider/__pycache__/
+*.html
+*.log
+*.xls
+*.xml
+*.json
+*.sql
+* csv
+*.pyc
+*.txt
+*.DS_Store
