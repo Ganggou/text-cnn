@@ -9,3 +9,4 @@ spider/__pycache__/
 *.pyc
 *.txt
 *.DS_Store
+*.h5
