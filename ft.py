@@ -6,11 +6,12 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import os
 import math
+from rnn import RNN
 
 FILE_NAMES = ['pass.txt', 'fail.txt', 'comments.txt']
 
 BUFFER_SIZE = 50000
-BATCH_SIZE = 64
+BATCH_SIZE = 32
 
 
 def main():
@@ -47,23 +48,7 @@ def main():
 
 
     vocab_size += 1
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Embedding(vocab_size, 64))
-    model.add(tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64)))
-
-    for units in [64, 64]:
-        model.add(tf.keras.layers.Dense(units, activation='relu'))
-
-# 输出层。第一个参数是标签个数。
-    model.add(tf.keras.layers.Dense(2, activation='softmax'))
-    model.compile(optimizer='adam',
-              loss='sparse_categorical_crossentropy',
-              metrics=['accuracy'])
-    model.fit(train_data, epochs=3, validation_data=test_data)
-    eval_loss, eval_acc = model.evaluate(test_data)
-
-    print('\nEval loss: {}, Eval accuracy: {}'.format(eval_loss, eval_acc))
-    model.save('my_model.h5')
+    model = RNN(vocab_size, train_data, test_data)
 
     result = model.predict_classes(
         data, batch_size=None, verbose=0
